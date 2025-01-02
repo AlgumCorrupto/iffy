@@ -2,15 +2,18 @@ defmodule Iffy.Discord.Sender do
   alias Nostrum.Api
 
   require Logger
+
   def broadcast(articles) do
     Logger.info("Broadcasting messages to discord")
     channels = :ets.lookup(:discord_channels, "channel") |> hd |> elem(1)
     do_cast(articles, channels)
+    Iffy.Fetcher.write_buff()
   end
 
   defp do_cast(_, []) do
     :ok
   end
+
   defp do_cast(articles, channels) do
     cast_all_articles(articles, hd(channels))
 
@@ -20,8 +23,10 @@ defmodule Iffy.Discord.Sender do
   defp cast_all_articles([], _) do
     :ok
   end
+
   defp cast_all_articles([current | next], channel) do
     import Nostrum.Struct.Embed
+
     embed =
       %Nostrum.Struct.Embed{}
       |> put_title(current["title"])
@@ -32,7 +37,7 @@ defmodule Iffy.Discord.Sender do
 
     case Api.create_message(channel, embed: embed) do
       {:error, _} -> remove_channel_from_list(channel)
-      _           -> cast_all_articles(next, channel)
+      _ -> cast_all_articles(next, channel)
     end
   end
 

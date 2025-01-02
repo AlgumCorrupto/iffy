@@ -31,5 +31,5 @@ iffy-*.tar
 # ignore env
 /env
 
-# ignore keys OwO
-
+# ignore buff
+buff
