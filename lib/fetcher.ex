@@ -40,9 +40,9 @@ defmodule Iffy.Fetcher do
   end
 
   def write_buff() do
-    contents = File.read("./buff")
+    {:ok, contents} = File.read("./buff")
     {:ok, file} = File.open("./last", [:write])
-    IO.write(file, contents)
+    IO.binwrite(file, contents)
   end
 
   defp compare_and_write_to_mem(articles) do
