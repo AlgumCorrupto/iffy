@@ -1,6 +1,8 @@
 # Iffy
 
-**TODO: Add description**
+Caso queira adicionar no seu server: 
+https://discord.com/oauth2/authorize?client_id=1319767076306686056&permissions=17592186096640&integration_type=0&scope=bot 
+
 
 ## Installation
 
